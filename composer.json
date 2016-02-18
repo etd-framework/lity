@@ -1,0 +1,10 @@
+{
+  "name": "etdsolutions/lity",
+  "description": "Lightweight responsive lightbox",
+  "authors": [
+    {
+      "name": "Jan Sorgalla"
+    }
+  ],
+  "license": "MIT"
+}
