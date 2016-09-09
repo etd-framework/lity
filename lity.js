@@ -1,4 +1,4 @@
-/*! Lity - v1.6.2 - 2016-02-12
+/*! Lity - v1.6.6 - 2016-04-22
 * http://sorgalla.com/lity/
 * Copyright (c) 2016 Jan Sorgalla; Licensed MIT */
 (function(window, factory) {
@@ -92,10 +92,6 @@
         return this;
     }
 
-    function protocol() {
-        return 'file:' === window.location.protocol ? 'http:' : '';
-    }
-
     function parseQueryParams(params){
         var pairs = decodeURI(params).split('&');
         var obj = {}, p;
@@ -180,7 +176,7 @@
 
         if (matches) {
             url = appendQueryParams(
-                protocol() + '//www.youtube' + (matches[2] || '') + '.com/embed/' + matches[4],
+                'https://www.youtube' + (matches[2] || '') + '.com/embed/' + matches[4],
                 $.extend(
                     {
                         autoplay: 1
@@ -194,7 +190,7 @@
 
         if (matches) {
             url = appendQueryParams(
-                protocol() + '//player.vimeo.com/video/' + matches[3],
+                'https://player.vimeo.com/video/' + matches[3],
                 $.extend(
                     {
                         autoplay: 1
@@ -208,7 +204,7 @@
 
         if (matches) {
             url = appendQueryParams(
-                protocol() + '//www.google.' + matches[3] + '/maps?' + matches[6],
+                'https://www.google.' + matches[3] + '/maps?' + matches[6],
                 {
                     output: matches[6].indexOf('layer=c') > 0 ? 'svembed' : 'embed'
                 }
@@ -276,6 +272,8 @@
         }
 
         function init(handler, content, options, el) {
+            _ready = $.Deferred();
+
             _instanceCount++;
             globalToggle();
 
@@ -284,7 +282,7 @@
                 .appendTo('body');
 
             if (!!options.esc) {
-                _win.one('keyup', keyup);
+                _win.on('keyup', keyup);
             }
 
             setTimeout(function() {
@@ -349,7 +347,6 @@
             }
 
             if (content) {
-                _ready = $.Deferred();
                 $.when(close()).done($.proxy(init, null, handler, content, options, el));
             }
 
@@ -409,6 +406,7 @@
             var options = el.data('lity-options') || el.data('lity');
 
             if (open(target, options, el)) {
+                el.blur();
                 event.preventDefault();
             }
         }
@@ -429,7 +427,7 @@
         return popup.options(options);
     }
 
-    lity.version = '1.6.2';
+    lity.version = '1.6.6';
     lity.handlers = $.proxy(settings, lity, _defaultHandlers);
     lity.options = $.proxy(settings, lity, _defaultOptions);
 
